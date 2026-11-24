@@ -9,10 +9,19 @@ export interface ArchitecturalHighlight {
   description: string;
 }
 
+export type GalleryAspect = '4:3' | '4:5' | '16:10' | '3:4';
+
 export interface ProjectGalleryItem {
   src: string;
   caption: string;
-  aspect: string;
+  aspect: GalleryAspect;
+}
+
+export interface ArchitecturalStats {
+  squareFootage: number;
+  year: string;
+  location: string;
+  program: string;
 }
 
 export interface Project {
@@ -26,6 +35,7 @@ export interface Project {
   tagline: string;
   summary: string;
   liveUrl: string;
+  architecturalStats: ArchitecturalStats;
   metrics: { value: string; label: string }[];
   overview: string[];
   challenge: string;
@@ -99,6 +109,12 @@ export const projects: Project[] = [
     summary:
       'A web-based code viewer, real-time compiler, and contextual AI code enhancer helping developers eliminate syntax flaws and optimize runtime efficiency instantly.',
     liveUrl: 'https://code.ladestack.in/',
+    architecturalStats: {
+      squareFootage: 4200,
+      year: '2025–2026',
+      location: 'Mumbai, India · Global Edge',
+      program: 'AI Studio & Compiler Lab',
+    },
     metrics: [
       { value: '73%', label: 'Code synthesized via contextual AI passes' },
       { value: '61%', label: 'Measured reduction in syntax and DOM defects' },
@@ -135,12 +151,22 @@ export const projects: Project[] = [
       {
         src: '/src/assets/images/code_enhance_mockup_1795498070957.jpg',
         caption: 'Primary split-view syntax diff and contextual AI refinement canvas',
-        aspect: '4:3',
+        aspect: '4:5',
       },
       {
         src: '/src/assets/images/lade_suite_mockup_1795498113342.jpg',
         caption: 'Synchronized multi-breakpoint preview and unified Lade Stack workspace',
         aspect: '4:3',
+      },
+      {
+        src: '/src/assets/images/studio_workspace_desk_1795498064443.jpg',
+        caption: 'Editorial typography grid studies guiding syntax hierarchy and contrast',
+        aspect: '16:10',
+      },
+      {
+        src: '/src/assets/images/hero_bronze_ribbon_1795498072392.jpg',
+        caption: 'Brushed bronze and dark obsidian surface system calibration plate',
+        aspect: '3:4',
       },
     ],
   },
@@ -157,6 +183,12 @@ export const projects: Project[] = [
     summary:
       'An enterprise-grade document manipulation suite running entirely in the browser using WebAssembly. Merge, split, compress, protect, and convert PDFs with zero file uploads to any cloud server.',
     liveUrl: 'https://pdf.ladestack.in/',
+    architecturalStats: {
+      squareFootage: 3650,
+      year: '2025–2026',
+      location: 'Mumbai, India · Local Device',
+      program: 'Archival Document Engine',
+    },
     metrics: [
       { value: '100%', label: 'Local in-browser execution with zero uploads' },
       { value: '17', label: 'Built-in document processing utilities' },
@@ -193,12 +225,22 @@ export const projects: Project[] = [
       {
         src: '/src/assets/images/ls_pdf_toolkit_mockup_1795498084162.jpg',
         caption: 'Swiss editorial documentation system and tactile archival workflow',
-        aspect: '4:3',
+        aspect: '3:4',
       },
       {
         src: '/src/assets/images/studio_workspace_desk_1795498064443.jpg',
         caption: 'Typographic grid studies informing document layout and export controls',
         aspect: '4:3',
+      },
+      {
+        src: '/src/assets/images/swift_resume_mockup_1795498069111.jpg',
+        caption: 'Print-grade vector PDF export tolerances and archival cotton paper test',
+        aspect: '4:5',
+      },
+      {
+        src: '/src/assets/images/lade_suite_mockup_1795498113342.jpg',
+        caption: 'Cross-device local processing queue inside the unified workspace',
+        aspect: '16:10',
       },
     ],
   },
@@ -215,6 +257,12 @@ export const projects: Project[] = [
     summary:
       'A high-throughput browser image compressor and format transcoder supporting 9+ contemporary media formats with zero server latency.',
     liveUrl: 'https://img.ladestack.in/',
+    architecturalStats: {
+      squareFootage: 2940,
+      year: '2025',
+      location: 'Mumbai, India · Browser Runtime',
+      program: 'Media Darkroom Suite',
+    },
     metrics: [
       { value: 'Up to 90%', label: 'Average payload reduction on web exports' },
       { value: '9+', label: 'Contemporary raster and vector formats supported' },
@@ -251,12 +299,22 @@ export const projects: Project[] = [
       {
         src: '/src/assets/images/ls_image_engine_mockup_1795498069889.jpg',
         caption: 'Dual-monitor histogram calibration and monochrome tone-curve preview',
-        aspect: '4:3',
+        aspect: '4:5',
       },
       {
         src: '/src/assets/images/hero_bronze_ribbon_1795498072392.jpg',
         caption: 'High-dynamic-range dark surface gradient compression stress test',
-        aspect: '16:9',
+        aspect: '16:10',
+      },
+      {
+        src: '/src/assets/images/bharat_land_mockup_1795498073544.jpg',
+        caption: 'Fine architectural contour sharpness verification at 85% AVIF reduction',
+        aspect: '4:3',
+      },
+      {
+        src: '/src/assets/images/studio_workspace_desk_1795498064443.jpg',
+        caption: 'Color-calibrated darkroom viewing desk under soft window illumination',
+        aspect: '3:4',
       },
     ],
   },
@@ -273,6 +331,12 @@ export const projects: Project[] = [
     summary:
       'An intelligent resume creation engine designed around strict Applicant Tracking System parser standards, pairing Swiss grid typesetting with live keyword auditing.',
     liveUrl: 'https://resume.ladestack.in/',
+    architecturalStats: {
+      squareFootage: 2480,
+      year: '2025',
+      location: 'Mumbai, India · Zurich Grid',
+      program: 'Editorial Typesetting Studio',
+    },
     metrics: [
       { value: 'Live ATS', label: 'Instant parser compliance and structure audit' },
       { value: 'Vector PDF', label: 'Deterministic print-grade typesetting engine' },
@@ -309,12 +373,22 @@ export const projects: Project[] = [
       {
         src: '/src/assets/images/swift_resume_mockup_1795498069111.jpg',
         caption: 'Swiss grid monograph typesetting with balanced hierarchy and margin math',
-        aspect: '4:3',
+        aspect: '3:4',
       },
       {
         src: '/src/assets/images/ls_pdf_toolkit_mockup_1795498084162.jpg',
         caption: 'Print-ready archival export specifications and paper ratio calibration',
         aspect: '4:3',
+      },
+      {
+        src: '/src/assets/images/studio_workspace_desk_1795498064443.jpg',
+        caption: 'Baseline typography reference books informing column rhythm and leading',
+        aspect: '4:5',
+      },
+      {
+        src: '/src/assets/images/code_enhance_mockup_1795498070957.jpg',
+        caption: 'Live AST keyword scoring inspection side-by-side with manuscript copy',
+        aspect: '16:10',
       },
     ],
   },
@@ -331,6 +405,12 @@ export const projects: Project[] = [
     summary:
       'A specialized mathematical converter translating regional Indian land units (Guntha, Bigha, Biswa, Cent, Ground, Acre, Hectare) with state-specific legal precision.',
     liveUrl: 'https://land.ladestack.in/',
+    architecturalStats: {
+      squareFootage: 43560,
+      year: '2024–2025',
+      location: 'Pan-India · 28 State Registries',
+      program: 'Geospatial Survey Matrix',
+    },
     metrics: [
       { value: '28 States', label: 'Regional revenue constants calibrated' },
       { value: '12+ Units', label: 'Simultaneous matrix projection per query' },
@@ -366,13 +446,23 @@ export const projects: Project[] = [
     gallery: [
       {
         src: '/src/assets/images/bharat_land_mockup_1795498073544.jpg',
-        caption: 'Topographic coordinate grid inspiration and regional calibration system',
-        aspect: '4:3',
+        caption: 'Topographic coordinate grid relief and regional calibration system',
+        aspect: '4:5',
       },
       {
         src: '/src/assets/images/studio_workspace_desk_1795498064443.jpg',
         caption: 'Field research notes and state revenue table verification studies',
         aspect: '4:3',
+      },
+      {
+        src: '/src/assets/images/ls_pdf_toolkit_mockup_1795498084162.jpg',
+        caption: 'Archival revenue ledger formatting and tabular precision print studies',
+        aspect: '16:10',
+      },
+      {
+        src: '/src/assets/images/swift_resume_mockup_1795498069111.jpg',
+        caption: 'Drafting scale instruments and coordinate reference grid proportions',
+        aspect: '3:4',
       },
     ],
   },
@@ -389,6 +479,12 @@ export const projects: Project[] = [
     summary:
       'The master umbrella ecosystem uniting intelligent API test generation, AI-powered documentation synthesizers, and full-stack workflow automation.',
     liveUrl: 'https://ladestack.in/',
+    architecturalStats: {
+      squareFootage: 6800,
+      year: '2026',
+      location: 'Mumbai, India · 100+ Countries',
+      program: 'Unified Developer Campus',
+    },
     metrics: [
       { value: '8,000+', label: 'Active developers using Lade Stack tools' },
       { value: '100+', label: 'Countries reached organically worldwide' },
@@ -425,12 +521,22 @@ export const projects: Project[] = [
       {
         src: '/src/assets/images/lade_suite_mockup_1795498113342.jpg',
         caption: 'Unified dark obsidian interface system across desktop, tablet, and mobile',
-        aspect: '4:3',
+        aspect: '4:5',
       },
       {
         src: '/src/assets/images/code_enhance_mockup_1795498070957.jpg',
         caption: 'Deep integration between Lade Suite workspace and CodeEnhance AI',
         aspect: '4:3',
+      },
+      {
+        src: '/src/assets/images/ls_image_engine_mockup_1795498069889.jpg',
+        caption: 'Dual-viewport asset telemetry and media workflow synchronization',
+        aspect: '16:10',
+      },
+      {
+        src: '/src/assets/images/hero_bronze_ribbon_1795498072392.jpg',
+        caption: 'Master bronze sculptural motif anchoring the Lade Stack identity',
+        aspect: '3:4',
       },
     ],
   },

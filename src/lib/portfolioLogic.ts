@@ -113,3 +113,34 @@ export function formatMumbaiTime(date: Date): string {
     second: '2-digit',
   }).format(date);
 }
+
+export type AreaUnit = 'sqft' | 'sqm';
+
+const SQFT_TO_SQM = 0.092903;
+
+export function formatArchitecturalArea(squareFeet: number, unit: AreaUnit = 'sqft'): string {
+  const safeValue = Number.isFinite(squareFeet) && squareFeet > 0 ? squareFeet : 0;
+  if (unit === 'sqm') {
+    const sqMeters = Math.round(safeValue * SQFT_TO_SQM);
+    return `${sqMeters.toLocaleString('en-US')} m²`;
+  }
+  return `${Math.round(safeValue).toLocaleString('en-US')} sq ft`;
+}
+
+export interface IndexedMasonryItem<T> {
+  item: T;
+  originalIndex: number;
+}
+
+export function distributeMasonryColumns<T>(
+  items: T[],
+  columnCount: number
+): IndexedMasonryItem<T>[][] {
+  const cols = Math.max(1, Math.floor(columnCount));
+  const buckets: IndexedMasonryItem<T>[][] = Array.from({ length: cols }, () => []);
+  items.forEach((item, originalIndex) => {
+    buckets[originalIndex % cols].push({ item, originalIndex });
+  });
+  return buckets;
+}
+

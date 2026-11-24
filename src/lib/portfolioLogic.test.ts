@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import { projects } from '../data/projects';
 import {
   createInquiryRecord,
+  distributeMasonryColumns,
   filterProjectsByCategory,
+  formatArchitecturalArea,
   formatMumbaiTime,
   getNextProject,
   getPrevProject,
@@ -91,4 +93,25 @@ test('formatMumbaiTime renders deterministic 24-hour Asia/Kolkata time', () => {
   const utcDate = new Date('2026-11-23T10:00:05.000Z');
   // UTC + 05:30 = 15:30:05 IST
   assert.equal(formatMumbaiTime(utcDate), '15:30:05');
+});
+
+test('formatArchitecturalArea converts square feet and square meters accurately', () => {
+  assert.equal(formatArchitecturalArea(4200, 'sqft'), '4,200 sq ft');
+  assert.equal(formatArchitecturalArea(4200, 'sqm'), '390 m²');
+  assert.equal(formatArchitecturalArea(43560, 'sqft'), '43,560 sq ft');
+  assert.equal(formatArchitecturalArea(43560, 'sqm'), '4,047 m²');
+});
+
+test('distributeMasonryColumns preserves original indices across balanced columns', () => {
+  const plates = ['A', 'B', 'C', 'D'];
+  const columns = distributeMasonryColumns(plates, 2);
+  assert.equal(columns.length, 2);
+  assert.deepEqual(columns[0], [
+    { item: 'A', originalIndex: 0 },
+    { item: 'C', originalIndex: 2 },
+  ]);
+  assert.deepEqual(columns[1], [
+    { item: 'B', originalIndex: 1 },
+    { item: 'D', originalIndex: 3 },
+  ]);
 });

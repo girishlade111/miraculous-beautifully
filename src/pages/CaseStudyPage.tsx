@@ -1,29 +1,67 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import { ArrowLeft, ArrowRight, ArrowUpRight, Maximize2, X } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
+  Maximize2,
+  X,
+} from 'lucide-react';
 import { getNextProject, getProjectBySlug } from '../lib/portfolioLogic';
 import { EditorialImage } from '../components/EditorialImage';
+import { ProjectStats } from '../components/ProjectStats';
+import { MasonryGallery } from '../components/MasonryGallery';
 import { luxuryEase, pageTransitionVariants } from '../lib/animations';
 import { NotFoundPage } from './NotFoundPage';
+
+interface LightboxState {
+  src: string;
+  caption: string;
+  galleryIndex?: number;
+}
 
 export function CaseStudyPage() {
   const { slug } = useParams<{ slug: string }>();
   const project = getProjectBySlug(slug);
-  const [lightboxImage, setLightboxImage] = useState<{ src: string; caption: string } | null>(
-    null
-  );
+  const [lightboxImage, setLightboxImage] = useState<LightboxState | null>(null);
 
   useEffect(() => {
-    if (!lightboxImage) return;
+    if (!lightboxImage || !project) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setLightboxImage(null);
+      } else if (
+        event.key === 'ArrowRight' &&
+        typeof lightboxImage.galleryIndex === 'number'
+      ) {
+        const nextIdx = (lightboxImage.galleryIndex + 1) % project.gallery.length;
+        const nextPlate = project.gallery[nextIdx];
+        setLightboxImage({
+          src: nextPlate.src,
+          caption: nextPlate.caption,
+          galleryIndex: nextIdx,
+        });
+      } else if (
+        event.key === 'ArrowLeft' &&
+        typeof lightboxImage.galleryIndex === 'number'
+      ) {
+        const prevIdx =
+          (lightboxImage.galleryIndex - 1 + project.gallery.length) %
+          project.gallery.length;
+        const prevPlate = project.gallery[prevIdx];
+        setLightboxImage({
+          src: prevPlate.src,
+          caption: prevPlate.caption,
+          galleryIndex: prevIdx,
+        });
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [lightboxImage]);
+  }, [lightboxImage, project]);
 
   if (!project) {
     return <NotFoundPage />;
@@ -118,6 +156,9 @@ export function CaseStudyPage() {
           </button>
         </div>
 
+        {/* Architectural Project Stats */}
+        <ProjectStats stats={project.architecturalStats} />
+
         {/* Key Metrics Strip */}
         <section
           aria-label="Measured outcomes"
@@ -203,38 +244,34 @@ export function CaseStudyPage() {
           </div>
         </section>
 
-        {/* Editorial Visual Plates */}
+        {/* Editorial Masonry Gallery */}
         <section className="py-16 border-t border-[var(--border-subtle)]">
-          <div className="mb-10">
-            <span className="eyebrow block mb-3">03. Visual Plates</span>
-            <h2 className="font-editorial text-3xl md:text-4xl text-[var(--text-primary)]">
-              Interface &amp; environment studies.
-            </h2>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+            <div>
+              <span className="eyebrow block mb-3">03. Visual Plates</span>
+              <h2 className="font-editorial text-3xl md:text-4xl text-[var(--text-primary)]">
+                Interface &amp; environment studies.
+              </h2>
+            </div>
+            <p className="text-xs font-mono-tabular text-[var(--text-muted)]">
+              {project.gallery.length.toString().padStart(2, '0')} archival plates · Scroll to reveal
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {project.gallery.map((plate, index) => (
-              <figure key={`${plate.src}-${index}`} className="space-y-3">
-                <button
-                  type="button"
-                  onClick={() => setLightboxImage({ src: plate.src, caption: plate.caption })}
-                  aria-label={`Open plate: ${plate.caption}`}
-                  className="group block w-full aspect-[4/3] rounded-xl overflow-hidden border border-[var(--border-subtle)] cursor-pointer"
-                >
-                  <EditorialImage
-                    src={plate.src}
-                    alt={plate.caption}
-                    fallbackTitle={project.title}
-                    className="w-full h-full"
-                    imgClassName="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
-                  />
-                </button>
-                <figcaption className="text-xs font-mono-tabular text-[var(--text-muted)]">
-                  Plate 0{index + 1} · {plate.caption}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
+          <MasonryGallery
+            plates={project.gallery}
+            projectTitle={project.title}
+            onSelectPlate={(index) => {
+              const plate = project.gallery[index];
+              if (plate) {
+                setLightboxImage({
+                  src: plate.src,
+                  caption: plate.caption,
+                  galleryIndex: index,
+                });
+              }
+            }}
+          />
         </section>
 
         {/* Next Project Navigation Footer */}
@@ -282,18 +319,61 @@ export function CaseStudyPage() {
               onClick={(e) => e.stopPropagation()}
               className="max-w-5xl w-full flex flex-col gap-4"
             >
-              <div className="flex items-center justify-between text-[#F4F4F6]">
+              <div className="flex items-center justify-between gap-4 text-[#F4F4F6]">
                 <span className="text-xs font-mono-tabular text-[#A1A3AD]">
-                  {lightboxImage.caption}
+                  {typeof lightboxImage.galleryIndex === 'number'
+                    ? `Plate ${(lightboxImage.galleryIndex + 1).toString().padStart(2, '0')} / ${project.gallery.length.toString().padStart(2, '0')} · ${lightboxImage.caption}`
+                    : lightboxImage.caption}
                 </span>
-                <button
-                  type="button"
-                  onClick={() => setLightboxImage(null)}
-                  aria-label="Close fullscreen preview"
-                  className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-[#F4F4F6] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-pointer"
-                >
-                  <X size={18} strokeWidth={1.5} />
-                </button>
+                <div className="flex items-center gap-2 shrink-0">
+                  {typeof lightboxImage.galleryIndex === 'number' && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const prevIdx =
+                            (lightboxImage.galleryIndex! - 1 + project.gallery.length) %
+                            project.gallery.length;
+                          const prevPlate = project.gallery[prevIdx];
+                          setLightboxImage({
+                            src: prevPlate.src,
+                            caption: prevPlate.caption,
+                            galleryIndex: prevIdx,
+                          });
+                        }}
+                        aria-label="Previous plate"
+                        className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-[#F4F4F6] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-pointer"
+                      >
+                        <ChevronLeft size={18} strokeWidth={1.5} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const nextIdx =
+                            (lightboxImage.galleryIndex! + 1) % project.gallery.length;
+                          const nextPlate = project.gallery[nextIdx];
+                          setLightboxImage({
+                            src: nextPlate.src,
+                            caption: nextPlate.caption,
+                            galleryIndex: nextIdx,
+                          });
+                        }}
+                        aria-label="Next plate"
+                        className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-[#F4F4F6] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-pointer"
+                      >
+                        <ChevronRight size={18} strokeWidth={1.5} />
+                      </button>
+                    </>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setLightboxImage(null)}
+                    aria-label="Close fullscreen preview"
+                    className="w-11 h-11 rounded-full border border-white/20 flex items-center justify-center text-[#F4F4F6] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-pointer"
+                  >
+                    <X size={18} strokeWidth={1.5} />
+                  </button>
+                </div>
               </div>
               <div className="rounded-xl overflow-hidden border border-white/15 bg-[#0C0D0E] max-h-[78vh]">
                 <img
