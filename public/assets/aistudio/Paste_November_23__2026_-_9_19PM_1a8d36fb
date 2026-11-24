@@ -1,0 +1,903 @@
+````markdown
+# MASTER ARCHITECTURAL PROMPT: RECREATING THE LUXURY "ORVA" EDITORIAL PORTFOLIO TEMPLATE AS A PRODUCTION-GRADE MULTI-PAGE REACT / NEXT.JS & FRAMER MOTION PLATFORM
+
+## SYSTEM ROLE & EXECUTION DIRECTIVE
+You are acting as an elite Principal Design Systems Architect, Creative Technologist, and Senior Full-Stack Engineer with 50 years of combined mastery in digital typography, motion physics, human-computer interaction, and high-performance frontend engineering.
+
+Your directive is to build an exhaustive, pixel-perfect, production-ready multi-page portfolio website inspired by the award-winning luxury editorial Framer template "ORVA — Design & Creative Direction" (referenced at `https://miraculous-beautifully-112155.framer.app/`).
+
+### ABSOLUTE CORE PRINCIPLES:
+1. **100% UNBRANDED & BESPOKE:** Completely purge all traces of Framer branding, "Made in Framer" badges, promotional banner buttons, edit icons, and external template links. The resulting project must appear as a custom, high-caliber bespoke digital engineering studio.
+2. **TRUE MULTI-PAGE APPLICATION:** This is NOT a single-page anchor-scrolling landing page. It is a fully architected multi-page web application featuring discrete routes:
+   - `/` — Homepage (Hero, Flagship Projects Grid, Studio Feature, Touchpoints Accordion, Interactive Project Planner)
+   - `/work` — Selected Works & Platform Archive with category filters
+   - `/work/[slug]` — Deep-dive Case Studies for 6 flagship platforms (`code-enhance-ai`, `ls-pdf-toolkit`, `ls-image-engine`, `swift-resume`, `bharat-land`, `lade-suite`)
+   - `/about` — Biography, Studio Philosophy, 2020–2026 Timeline, Core Principles & Technical Stack Matrix
+   - `/process` — 4-Stage Precision Delivery Framework (Discover, Define, Develop, Deliver)
+   - `/contact` — Interactive Project Inquiry Intake Form & Direct Communication Channels
+   - `/not-found` — Minimalist Editorial 404 Experience
+3. **EXTENSIVE FRAMER MOTION INTEGRATION:** Every page, card, modal, accordion, and micro-interaction must leverage Framer Motion with custom cubic-bezier easing (`[0.16, 1, 0.3, 1]`), spring physics, staggered entry variants, and scroll-linked parallax.
+4. **AUTHENTIC CONTENT INGESTION (GIRISH LADE / LADE STACK):** Replace all fictional template copy (Velune, Monograph, Table Notes, etc.) with the real engineering ecosystem of **Girish Lade**, Founder & Lead Architect of **Lade Stack** (`https://ladestack.in/`).
+5. **DUAL-THEME FIDELITY (DARK & LIGHT):** Flawless system-aware Dark mode (matte obsidian `#0C0D0E` with warm bronze accents) and Light mode (tactile warm alabaster `#FBFBF9`), toggleable without layout shift or theme flash.
+6. **RESPONSIVE PIXEL PERFECTION:** Mobile-first architecture rendering flawlessly from 320px mobile screens to 4K ultra-wide displays. All interactive tap targets must measure ≥ 48px. Zero horizontal overflow.
+
+---
+
+## 1. TECHNICAL STACK & DIRECTORY BLUEPRINT
+
+### Technology Stack:
+- **Framework:** Next.js 14/15 App Router (React 18/19, Server & Client Components)
+- **Language:** TypeScript 5.5+ (Strict mode, no implicit any)
+- **Styling:** Tailwind CSS with CSS Variable design tokens
+- **Motion Engine:** `framer-motion` (v11+)
+- **Iconography:** `lucide-react` (Stroke width 1.5px, zero emoji)
+- **Smooth Scroll:** `@studio-freight/lenis`
+- **Theme Provider:** `next-themes` (Class-based, default `dark`)
+- **Typography:** Google Fonts (`Instrument Serif`, `Inter`, `JetBrains Mono`)
+
+### Project Architecture:
+```text
+├── app/
+│   ├── layout.tsx              # Root HTML shell, fonts, ThemeProvider, SmoothScroll
+│   ├── globals.css             # Tokens, typography utilities, theme layers
+│   ├── page.tsx                # Homepage
+│   ├── work/
+│   │   ├── page.tsx            # Work archive & category filtering
+│   │   └── [slug]/
+│   │       └── page.tsx        # Dynamic editorial case study template
+│   ├── about/
+│   │   └── page.tsx            # About, philosophy, timeline, and stack
+│   ├── process/
+│   │   └── page.tsx            # 4-stage engineering methodology
+│   ├── contact/
+│   │   └── page.tsx            # Interactive project planner & contact info
+│   └── not-found.tsx           # Custom 404 page
+├── components/
+│   ├── Navbar.tsx              # Global navigation bar & theme toggle
+│   ├── MenuOverlay.tsx         # Fullscreen Framer Motion overlay drawer
+│   ├── Footer.tsx              # Dynamic Mumbai IST clock, status beacon, email
+│   ├── ProjectCard.tsx         # Project card with hover scale & image parallax
+│   ├── Accordion.tsx           # Touchpoint capabilities drawer with animated height
+│   ├── ContactForm.tsx         # Form with multi-select service pills & validation
+│   ├── ThemeToggle.tsx         # Animated 180° theme switch button
+│   └── SmoothScroll.tsx        # Lenis smooth scroll provider
+├── data/
+│   └── projects.ts             # Rich typed data for all 6 flagship platforms
+├── lib/
+│   ├── animations.ts           # Shared Framer Motion variants & bezier springs
+│   └── utils.ts                # Class merging utility (clsx + tailwind-merge)
+└── public/
+    └── images/                 # Optimized webp/avif imagery
+```
+
+---
+
+## 2. DESIGN TOKENS, TYPOGRAPHY & COLOR SYSTEM
+
+### `app/globals.css`
+```css
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-serif: 'Instrument Serif', Georgia, serif;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Light Theme: Tactile Warm Alabaster */
+    --bg-primary: #FBFBF9;
+    --bg-surface: #F3F2EE;
+    --bg-card: #ECEAE4;
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --border-strong: rgba(0, 0, 0, 0.18);
+    --text-primary: #121316;
+    --text-muted: #6B6C75;
+    --text-faint: #9EA0A8;
+    --accent: #9E6B40;
+    --accent-hover: #7E512C;
+    --accent-pill: #E2DDD5;
+  }
+
+  .dark {
+    /* Dark Theme: Matte Obsidian & Warm Bronze */
+    --bg-primary: #0C0D0E;
+    --bg-surface: #141518;
+    --bg-card: #1A1C20;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.18);
+    --text-primary: #F4F4F6;
+    --text-muted: #8E9099;
+    --text-faint: #4E5058;
+    --accent: #D4A373;
+    --accent-hover: #E8B98C;
+    --accent-pill: #25272D;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.font-editorial {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+```
+
+---
+
+## 3. MOTION & ANIMATION GRAMMAR (`lib/animations.ts`)
+
+```typescript
+import { Variants, Transition } from "framer-motion";
+
+export const luxuryEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+export const transitionFast: Transition = {
+  duration: 0.45,
+  ease: luxuryEase,
+};
+
+export const transitionSlow: Transition = {
+  duration: 0.9,
+  ease: luxuryEase,
+};
+
+export const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+export const fadeInUp: Variants = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: transitionSlow,
+  },
+};
+
+export const fadeInScale: Variants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: transitionSlow,
+  },
+};
+
+export const menuOverlayVariants: Variants = {
+  closed: {
+    opacity: 0,
+    y: "-100%",
+    transition: { duration: 0.5, ease: luxuryEase },
+  },
+  open: {
+    opacity: 1,
+    y: "0%",
+    transition: { duration: 0.65, ease: luxuryEase },
+  },
+};
+
+export const linkHoverVariant: Variants = {
+  initial: { x: 0 },
+  hover: { x: 6, transition: transitionFast },
+};
+```
+
+---
+
+## 4. AUTHENTIC DATA STORE (`data/projects.ts`)
+
+```typescript
+export interface Project {
+  slug: string;
+  title: string;
+  category: string;
+  year: string;
+  tagline: string;
+  summary: string;
+  liveUrl: string;
+  metrics: string[];
+  overview: string[];
+  architecturalHighlights: { title: string; description: string }[];
+  image: string;
+  galleryImages: string[];
+}
+
+export const projects: Project[] = [
+  {
+    slug: "code-enhance-ai",
+    title: "CodeEnhance AI",
+    category: "AI Developer Platform",
+    year: "2025–2026",
+    tagline: "In-browser intelligent code compilation, syntax reasoning, and instant enhancement.",
+    summary: "A revolutionary web-based code viewer, real-time compiler, and contextual AI code enhancer helping developers eliminate syntax flaws and optimize runtime efficiency instantly.",
+    liveUrl: "https://code.ladestack.in/",
+    metrics: ["73% Code Synthesized by AI", "61% Bug Reduction", "0ms Latency Compilation"],
+    overview: [
+      "CodeEnhance AI was engineered to bridge the gap between heavy desktop IDEs and instant browser execution.",
+      "By integrating lightweight client-side sandboxes with multi-LLM context processors, developers can inspect, format, and enhance HTML, CSS, and JavaScript in real time."
+    ],
+    architecturalHighlights: [
+      {
+        title: "Client-Side Real-Time Execution",
+        description: "Zero-dependency sandbox compiling web languages without roundtrip server lag."
+      },
+      {
+        title: "Intelligent Semantic Optimizer",
+        description: "Automated refactoring engine adding missing accessibility attributes, modern syntax, and secure DOM manipulations."
+      },
+      {
+        title: "Cross-Device Responsive Inspector",
+        description: "Instant fluid viewport testing across mobile, tablet, and widescreen breakpoints."
+      }
+    ],
+    image: "/images/code-enhance-hero.webp",
+    galleryImages: ["/images/code-enhance-1.webp", "/images/code-enhance-2.webp"]
+  },
+  {
+    slug: "ls-pdf-toolkit",
+    title: "LS PDF Toolkit",
+    category: "Zero-Knowledge WebAssembly Suite",
+    year: "2025–2026",
+    tagline: "17 client-side PDF utilities running 100% locally with absolute cryptographic privacy.",
+    summary: "An enterprise-grade document manipulation suite running entirely in the browser using WebAssembly. Merge, split, compress, protect, and convert PDFs with zero file uploads to any cloud server.",
+    liveUrl: "https://pdf.ladestack.in/",
+    metrics: ["100% In-Browser Privacy", "17 Built-In Utilities", "Zero Cloud Storage Footprint"],
+    overview: [
+      "Traditional online PDF tools harvest sensitive user documents on remote cloud servers.",
+      "LS PDF Toolkit solves this by executing all parsing, rasterization, and compression routines directly within the user's browser memory via WebAssembly."
+    ],
+    architecturalHighlights: [
+      {
+        title: "Zero-Upload Architecture",
+        description: "Guarantees enterprise data compliance and absolute confidentiality."
+      },
+      {
+        title: "Multi-Core Web Worker Engine",
+        description: "Offloads intensive cryptographic encryption and PDF rendering to background worker threads."
+      },
+      {
+        title: "Memory-Efficient Streaming",
+        description: "Manipulates multi-gigabyte document files without freezing the main UI thread."
+      }
+    ],
+    image: "/images/ls-pdf-hero.webp",
+    galleryImages: ["/images/ls-pdf-1.webp", "/images/ls-pdf-2.webp"]
+  },
+  {
+    slug: "ls-image-engine",
+    title: "LS Image Engine",
+    category: "High-Performance Media Compression",
+    year: "2025",
+    tagline: "Client-side image optimization cutting asset payloads up to 90% without quality loss.",
+    summary: "A high-throughput browser image compressor and format transcoder supporting 9+ contemporary media formats with zero server latency.",
+    liveUrl: "https://img.ladestack.in/",
+    metrics: ["Up to 90% Compression", "9+ Formats Supported", "Instant Local Batch Export"],
+    overview: [
+      "Engineered for designers and developers needing rapid batch image optimization without leaking intellectual property to third-party APIs.",
+      "Harnesses modern Canvas and WebGL APIs for lossless color quantization and dimension downscaling."
+    ],
+    architecturalHighlights: [
+      {
+        title: "Multi-Format Transcoding",
+        description: "Seamless bi-directional conversion across WebP, AVIF, PNG, JPEG, and SVG."
+      },
+      {
+        title: "Perceptual Metric Preserving",
+        description: "Uses structural similarity indexing (SSIM) to preserve edge fidelity."
+      },
+      {
+        title: "Drag & Drop Multi-Thread Queue",
+        description: "Asynchronous processing queue processing hundreds of assets simultaneously."
+      }
+    ],
+    image: "/images/ls-image-hero.webp",
+    galleryImages: ["/images/ls-image-1.webp", "/images/ls-image-2.webp"]
+  },
+  {
+    slug: "swift-resume",
+    title: "Swift Resume",
+    category: "Career Intelligence & ATS Compiler",
+    year: "2025",
+    tagline: "Algorithmic ATS resume builder with live typographical preview and real-time scoring.",
+    summary: "An intelligent resume creation engine designed according to strict Applicant Tracking System parser standards, featuring live typesetting and keyword optimization.",
+    liveUrl: "https://resume.ladestack.in/",
+    metrics: ["Real-time ATS Scoring", "Instant PDF Typesetting", "100% Free Forever"],
+    overview: [
+      "Job seekers often fail automated screening due to unparseable design templates.",
+      "Swift Resume combines Swiss grid typography with an automated scanner that audits resumes against real-world ATS algorithms in real time."
+    ],
+    architecturalHighlights: [
+      {
+        title: "Deterministic Typography Grid",
+        description: "Produces vector-perfect PDF exports readable by both human recruiters and parsing bots."
+      },
+      {
+        title: "Keyword & Density Heuristics",
+        description: "Real-time auditing engine flagging missing technical keywords and formatting errors."
+      },
+      {
+        title: "Local State Encryption",
+        description: "Personal career data remains encrypted in local storage with zero tracking."
+      }
+    ],
+    image: "/images/swift-resume-hero.webp",
+    galleryImages: ["/images/swift-resume-1.webp", "/images/swift-resume-2.webp"]
+  },
+  {
+    slug: "bharat-land",
+    title: "Bharat Land Converter",
+    category: "Algorithmic Geo-Measurement Engine",
+    year: "2024–2025",
+    tagline: "State-wise land measurement unit conversion engine for Indian property records.",
+    summary: "A specialized mathematical converter translating complex regional land units (Guntha, Bigha, Biswa, Cent, Ground, Acre, Hectare) with state-specific legal precision.",
+    liveUrl: "https://land.ladestack.in/",
+    metrics: ["28 Indian States Covered", "Instant Matrix Conversion", "100% Mathematical Accuracy"],
+    overview: [
+      "Indian land records vary significantly across states, where a 'Bigha' in Punjab is completely different from a 'Bigha' in Rajasthan or Bengal.",
+      "Bharat Land Converter resolves this regional ambiguity through an indexed geospatial conversion matrix."
+    ],
+    architecturalHighlights: [
+      {
+        title: "State-Specific Calibration",
+        description: "Custom mathematical constants mapped to individual state revenue regulations."
+      },
+      {
+        title: "Instant Multi-Unit Matrix",
+        description: "Single-input calculation instantly projecting across 12+ dimensional units."
+      },
+      {
+        title: "Offline Progressive PWA",
+        description: "Works completely offline in remote rural areas with zero network connectivity."
+      }
+    ],
+    image: "/images/bharat-land-hero.webp",
+    galleryImages: ["/images/bharat-land-1.webp", "/images/bharat-land-2.webp"]
+  },
+  {
+    slug: "lade-suite",
+    title: "Lade Suite Enterprise",
+    category: "Unified Developer Ecosystem",
+    year: "2026",
+    tagline: "One unified developer platform combining API testing, no-code scaffolding, and documentation.",
+    summary: "The master umbrella ecosystem uniting intelligent API test generation, AI-powered documentation synthesizers, and full-stack deployment automation.",
+    liveUrl: "https://ladestack.in/",
+    metrics: ["8,000+ Developers", "100+ Countries", "Zero Enterprise Pricing"],
+    overview: [
+      "Lade Suite eliminates fragmented SaaS bills by unifying developer productivity tools into a single, cohesive, free ecosystem.",
+      "Built on modern open principles, it provides indie developers with tools typically reserved for FAANG engineering departments."
+    ],
+    architecturalHighlights: [
+      {
+        title: "Autonomous API Mocking",
+        description: "Intelligent schema deduction creating instant mock endpoints and load tests."
+      },
+      {
+        title: "Documentation AI Synthesizer",
+        description: "Extracts context from code repositories to generate developer-friendly guides."
+      },
+      {
+        title: "Unified SSO & Workspace",
+        description: "Seamless single sign-on linking all Lade Stack developer applications."
+      }
+    ],
+    image: "/images/lade-suite-hero.webp",
+    galleryImages: ["/images/lade-suite-1.webp", "/images/lade-suite-2.webp"]
+  }
+];
+```
+
+---
+
+## 5. CORE COMPONENT IMPLEMENTATIONS
+
+### A. Navigation Bar & Menu Overlay (`components/Navbar.tsx` & `components/MenuOverlay.tsx`)
+```tsx
+// components/Navbar.tsx
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { ThemeToggle } from "./ThemeToggle";
+import { MenuOverlay } from "./MenuOverlay";
+
+export const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <header className="fixed top-0 left-0 right-0 z-40 bg-[var(--bg-primary)]/80 backdrop-blur-md border-b border-[var(--border-subtle)] transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <Link href="/" className="font-editorial text-2xl tracking-tight text-[var(--text-primary)] hover:opacity-80 transition-opacity">
+            GIRISH LADE
+          </Link>
+
+          <nav className="hidden md:flex items-center space-x-8">
+            <Link href="/work" className="text-sm font-medium text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
+              Work
+            </Link>
+            <Link href="/about" className="text-sm font-medium text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
+              About
+            </Link>
+            <Link href="/process" className="text-sm font-medium text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
+              Process
+            </Link>
+            <Link href="/contact" className="text-sm font-medium text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors">
+              Contact
+            </Link>
+          </nav>
+
+          <div className="flex items-center space-x-4">
+            <ThemeToggle />
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsOpen(true)}
+              aria-label="Open Navigation Menu"
+              className="w-11 h-11 rounded-full bg-[var(--accent)] text-black flex items-center justify-center font-medium shadow-sm"
+            >
+              <div className="w-4 h-3 flex flex-col justify-between">
+                <span className="w-full h-0.5 bg-black rounded-full" />
+                <span className="w-full h-0.5 bg-black rounded-full" />
+                <span className="w-full h-0.5 bg-black rounded-full" />
+              </div>
+            </motion.button>
+          </div>
+        </div>
+      </header>
+
+      <AnimatePresence>
+        {isOpen && <MenuOverlay onClose={() => setIsOpen(false)} />}
+      </AnimatePresence>
+    </>
+  );
+};
+```
+
+```tsx
+// components/MenuOverlay.tsx
+"use client";
+
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { X, ArrowUpRight, Copy, Check } from "lucide-react";
+import { useState } from "react";
+import { menuOverlayVariants, luxuryEase } from "@/lib/animations";
+
+export const MenuOverlay = ({ onClose }: { onClose: () => void }) => {
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText("admin@ladestack.in");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const navLinks = [
+    { label: "Work", href: "/work", number: "01" },
+    { label: "About", href: "/about", number: "02" },
+    { label: "Process", href: "/process", number: "03" },
+    { label: "Contact", href: "/contact", number: "04" },
+  ];
+
+  return (
+    <motion.div
+      variants={menuOverlayVariants}
+      initial="closed"
+      animate="open"
+      exit="closed"
+      className="fixed inset-0 z-50 bg-[var(--bg-primary)] flex flex-col justify-between p-6 md:p-14 overflow-y-auto"
+    >
+      <div className="flex items-center justify-between">
+        <span className="font-editorial text-2xl text-[var(--text-primary)]">GIRISH LADE</span>
+        <button
+          onClick={onClose}
+          aria-label="Close menu"
+          className="w-12 h-12 rounded-full border border-[var(--border-strong)] flex items-center justify-center text-[var(--text-primary)] hover:rotate-90 transition-transform duration-300"
+        >
+          <X size={20} />
+        </button>
+      </div>
+
+      <nav className="my-auto py-10 flex flex-col space-y-6">
+        {navLinks.map((link, idx) => (
+          <motion.div
+            key={link.href}
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.15 + idx * 0.08, ease: luxuryEase, duration: 0.7 }}
+          >
+            <Link
+              href={link.href}
+              onClick={onClose}
+              className="group flex items-baseline space-x-6 hover:translate-x-4 transition-transform duration-300"
+            >
+              <span className="font-mono text-xs text-[var(--accent)] tracking-widest">{link.number}</span>
+              <span className="font-editorial text-4xl sm:text-6xl md:text-8xl text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">
+                {link.label}
+              </span>
+            </Link>
+          </motion.div>
+        ))}
+      </nav>
+
+      <div className="pt-8 border-t border-[var(--border-subtle)] flex flex-col md:flex-row md:items-center justify-between gap-6 text-sm">
+        <div>
+          <span className="eyebrow block mb-1">Direct Inquiries</span>
+          <button
+            onClick={copyEmail}
+            className="font-mono text-[var(--text-primary)] hover:text-[var(--accent)] flex items-center space-x-2 transition-colors"
+          >
+            <span>admin@ladestack.in</span>
+            {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+          </button>
+        </div>
+
+        <div className="flex items-center space-x-6 text-[var(--text-muted)] font-mono text-xs">
+          <a href="https://github.com/girishlade111" target="_blank" rel="noreferrer" className="hover:text-[var(--text-primary)] flex items-center space-x-1">
+            <span>GitHub</span> <ArrowUpRight size={12} />
+          </a>
+          <a href="https://linkedin.com/in/girish-lade-075bba201/" target="_blank" rel="noreferrer" className="hover:text-[var(--text-primary)] flex items-center space-x-1">
+            <span>LinkedIn</span> <ArrowUpRight size={12} />
+          </a>
+          <a href="https://instagram.com/girish_lade_" target="_blank" rel="noreferrer" className="hover:text-[var(--text-primary)] flex items-center space-x-1">
+            <span>Instagram</span> <ArrowUpRight size={12} />
+          </a>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+```
+
+### B. Live Clock & Status Footer (`components/Footer.tsx`)
+```tsx
+// components/Footer.tsx
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+
+export const Footer = () => {
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTime(
+        now.toLocaleTimeString("en-US", {
+          timeZone: "Asia/Kolkata",
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      );
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <footer className="border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] pt-20 pb-12 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-16">
+          <span className="eyebrow block mb-4">Start a conversation</span>
+          <a
+            href="mailto:admin@ladestack.in"
+            className="font-editorial text-4xl sm:text-6xl md:text-8xl text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors inline-block border-b border-[var(--border-strong)] pb-4"
+          >
+            admin@ladestack.in
+          </a>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 py-12 border-b border-[var(--border-subtle)]">
+          <div>
+            <span className="eyebrow block mb-3">Navigation</span>
+            <ul className="space-y-2 text-sm text-[var(--text-muted)]">
+              <li><Link href="/work" className="hover:text-[var(--text-primary)]">Selected Work</Link></li>
+              <li><Link href="/about" className="hover:text-[var(--text-primary)]">About & Philosophy</Link></li>
+              <li><Link href="/process" className="hover:text-[var(--text-primary)]">Process</Link></li>
+              <li><Link href="/contact" className="hover:text-[var(--text-primary)]">Contact</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <span className="eyebrow block mb-3">Flagship Platforms</span>
+            <ul className="space-y-2 text-sm text-[var(--text-muted)]">
+              <li><Link href="/work/code-enhance-ai" className="hover:text-[var(--text-primary)]">CodeEnhance AI</Link></li>
+              <li><Link href="/work/ls-pdf-toolkit" className="hover:text-[var(--text-primary)]">LS PDF Toolkit</Link></li>
+              <li><Link href="/work/ls-image-engine" className="hover:text-[var(--text-primary)]">LS Image Engine</Link></li>
+              <li><Link href="/work/swift-resume" className="hover:text-[var(--text-primary)]">Swift Resume</Link></li>
+              <li><Link href="/work/bharat-land" className="hover:text-[var(--text-primary)]">Bharat Land Converter</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <span className="eyebrow block mb-3">Connect</span>
+            <ul className="space-y-2 text-sm text-[var(--text-muted)] font-mono">
+              <li><a href="https://github.com/girishlade111" target="_blank" rel="noreferrer" className="hover:text-[var(--text-primary)] flex items-center space-x-1"><span>GitHub</span> <ArrowUpRight size={12} /></a></li>
+              <li><a href="https://linkedin.com/in/girish-lade-075bba201/" target="_blank" rel="noreferrer" className="hover:text-[var(--text-primary)] flex items-center space-x-1"><span>LinkedIn</span> <ArrowUpRight size={12} /></a></li>
+              <li><a href="https://instagram.com/girish_lade_" target="_blank" rel="noreferrer" className="hover:text-[var(--text-primary)] flex items-center space-x-1"><span>Instagram</span> <ArrowUpRight size={12} /></a></li>
+              <li><a href="https://codepen.io/Girish-Lade-the-looper" target="_blank" rel="noreferrer" className="hover:text-[var(--text-primary)] flex items-center space-x-1"><span>CodePen</span> <ArrowUpRight size={12} /></a></li>
+            </ul>
+          </div>
+
+          <div>
+            <span className="eyebrow block mb-3">Availability</span>
+            <div className="flex items-center space-x-2 text-xs font-mono text-[var(--text-primary)] mb-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span>Open for Select Architectural Consulting</span>
+            </div>
+            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+              Based in Mumbai, collaborating worldwide.
+            </p>
+          </div>
+        </div>
+
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[var(--text-faint)] gap-4">
+          <p>© 2026 Girish Lade · Lade Stack. All rights reserved.</p>
+          <div className="flex items-center space-x-2">
+            <span>Mumbai, IN — {time || "00:00:00"} IST</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+```
+
+### C. Capabilities Accordion (`components/Accordion.tsx`)
+```tsx
+// components/Accordion.tsx
+"use client";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Minus } from "lucide-react";
+import { luxuryEase } from "@/lib/animations";
+
+interface Touchpoint {
+  id: string;
+  number: string;
+  title: string;
+  summary: string;
+  details: string[];
+}
+
+const touchpoints: Touchpoint[] = [
+  {
+    id: "ai",
+    number: "01",
+    title: "AI Systems & Agentic Architecture",
+    summary: "Context-aware code synthesis, autonomous test generation, and multi-model orchestration pipelines.",
+    details: [
+      "Custom RAG pipelines with optimized vector databases",
+      "Multi-agent task distribution and evaluation loops",
+      "In-browser lightweight model execution with zero cloud egress"
+    ]
+  },
+  {
+    id: "web",
+    number: "02",
+    title: "In-Browser Computing & WebAssembly",
+    summary: "High-performance client-side tooling eliminating server processing costs and data liability.",
+    details: [
+      "WASM compilation for heavy media, image and PDF manipulation",
+      "Web Workers and multithreaded JavaScript concurrency",
+      "Zero-upload client-side cryptographic storage and privacy"
+    ]
+  },
+  {
+    id: "ui",
+    number: "03",
+    title: "Editorial Design & Motion Direction",
+    summary: "Distilling complex software workflows into calm, high-contrast, magazine-grade interfaces.",
+    details: [
+      "High-contrast Swiss typographic scale & bespoke design tokens",
+      "Framer Motion layout animations and spring physics",
+      "Accessible dark/light color science meeting WCAG AAA contrast"
+    ]
+  },
+  {
+    id: "eng",
+    number: "04",
+    title: "Production Engineering & Cloud Scale",
+    summary: "Architecting zero-downtime, stress-tested full-stack applications with 99.9% uptime SLA.",
+    details: [
+      "Next.js App Router, Edge Middleware, and Server Components",
+      "SOC 2 compliance principles and end-to-end data safety",
+      "Automated CI/CD pipelines and regression verification gates"
+    ]
+  }
+];
+
+export const Accordion = () => {
+  const [activeId, setActiveId] = useState<string | null>("ai");
+
+  return (
+    <div className="divide-y divide-[var(--border-subtle)] border-y border-[var(--border-subtle)]">
+      {touchpoints.map((tp) => {
+        const isOpen = activeId === tp.id;
+        return (
+          <div key={tp.id} className="py-6 transition-colors">
+            <button
+              onClick={() => setActiveId(isOpen ? null : tp.id)}
+              className="w-full flex items-center justify-between text-left group"
+            >
+              <div className="flex items-center space-x-6 md:space-x-12">
+                <span className="font-mono text-xs text-[var(--accent)] tracking-widest">{tp.number}</span>
+                <h3 className="font-editorial text-2xl sm:text-3xl md:text-4xl text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">
+                  {tp.title}
+                </h3>
+              </div>
+              <div className="w-10 h-10 rounded-full border border-[var(--border-subtle)] flex items-center justify-center text-[var(--text-muted)] group-hover:text-[var(--text-primary)] group-hover:border-[var(--text-primary)] transition-all">
+                {isOpen ? <Minus size={16} /> : <Plus size={16} />}
+              </div>
+            </button>
+
+            <AnimatePresence>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.5, ease: luxuryEase }}
+                  className="overflow-hidden"
+                >
+                  <div className="pt-6 pl-12 md:pl-20 max-w-3xl space-y-4">
+                    <p className="text-[var(--text-muted)] text-base md:text-lg leading-relaxed">{tp.summary}</p>
+                    <ul className="space-y-2 pt-2">
+                      {tp.details.map((item, i) => (
+                        <li key={i} className="flex items-center space-x-3 text-sm font-mono text-[var(--text-primary)]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+```
+
+---
+
+## 6. INDIVIDUAL PAGE IMPLEMENTATION DETAILS
+
+### PAGE 1: HOMEPAGE (`app/page.tsx`)
+- **Hero Section:**
+  - Eyebrow: `INDEPENDENT AI SYSTEMS & FULL-STACK ARCHITECTURE`
+  - H1 (`Instrument Serif`, 5rem+): `Ideas with presence. Software with depth.`
+  - Subhead (`Inter`, text-muted): `I transform ambitious concepts into high-performance AI tools and digital experiences with an uncompromising standard of craft and zero gatekeeping.`
+  - Hero Sculpture Visual: Full-width container rendering the abstract brushed bronze ribbon sculpture with subtle mouse-parallax.
+- **Flagship Projects Section:**
+  - Header: `Distinctive ideas. Tangible outcomes.`
+  - Renders all 6 projects from `data/projects.ts` in a staggered 2-column grid.
+  - Cards feature hover zoom, category tags, year, and a clean `View Project →` link.
+- **Studio Teaser Section:**
+  - Split screen: Studio desk photography on left, bio quote on right: *"I shape intelligent systems around one clear idea: make complex power feel effortless and human."*
+- **Touchpoints Accordion Section:**
+  - Section title: `A clear vision, across every touchpoint.`
+  - Renders the `Accordion` component.
+- **Project Inquiry Intake Section:**
+  - Title: `What could we create together?`
+  - Includes an interactive planner with selectable budget tags and direct contact buttons.
+
+### PAGE 2: WORK ARCHIVE (`app/work/page.tsx`)
+- Header: `Different disciplines. One point of view.`
+- Includes filter tabs: `All Projects`, `AI Developer Tools`, `Client-Side Privacy`, `Web Architecture`.
+- Interactive grid updating dynamically with Framer Motion `layout` transitions.
+
+### PAGE 3: CASE STUDY TEMPLATE (`app/work/[slug]/page.tsx`)
+- Dynamic parameters (`generateStaticParams` for all 6 slugs).
+- Displays project title, category, year, live link, challenge narrative, architecture breakdown, metrics, and high-res mockups.
+- Seamless "Next Project" footer linking to the next project in the array.
+
+### PAGE 4: ABOUT (`app/about/page.tsx`)
+- Header: `An independent point of view.`
+- Comprehensive biography detailing Girish Lade's journey from solo engineer in 2020 to founding Lade Stack in 2024–2026.
+- Interactive vertical timeline covering 2020, 2022, 2024, 2025, and 2026.
+- Core 4 values: AI-First Innovation, Developer Empowerment, Production Quality, Open Transparency.
+- Technology & Infrastructure Matrix.
+
+### PAGE 5: PROCESS (`app/process/page.tsx`)
+- Header: `From first idea to final detail.`
+- Subhead: `Good work starts with a good conversation. Here is how we turn your goals into a clear direction, a considered design and a confident launch.`
+- 4-step detailed layout:
+  - `01 — Discover`: Requirement deconstruction, AI feasibility audit, milestone definition.
+  - `02 — Define`: System architecture, design tokens, typography scale, prototype wireframe.
+  - `03 — Develop`: Component engineering, Framer Motion choreography, edge test coverage.
+  - `04 — Deliver`: Deployment with 99.9% uptime SLA, documentation, and clean handover.
+
+### PAGE 6: CONTACT (`app/contact/page.tsx`)
+- Header: `Tell me what you have in mind.`
+- Status badge with pulsating emerald dot: `OPEN TO THOUGHTFUL COLLABORATIONS`.
+- Interactive form with service pills: `AI Application`, `Design System & Frontend`, `Full-Stack Architecture`, `Consulting`.
+- Form validation with toast confirmation on submit.
+- Direct contact details: `admin@ladestack.in`, Mumbai location, 4–12 hour response SLA.
+
+---
+
+## 7. AI IMAGE GENERATION PROMPTS (MIDJOURNEY V6 / FLUX.1)
+
+Use these exact prompts to generate all editorial photography and visual mockups:
+
+```text
+1. HERO ABSTRACT RIBBON SCULPTURE:
+"A monolithic fluid architectural ribbon sculpture made of matte brushed bronze and dark obsidian carbon fiber, twisting weightlessly in zero gravity, dramatic cinematic low-key studio lighting, deep rich shadows, warm golden rim reflections, Hasselblad 100mm lens, 8k resolution, minimalist luxury editorial art direction, photorealistic --ar 16:9 --style raw --v 6.0"
+
+2. STUDIO WORKSPACE / ABOUT HERO PHOTOGRAPHY:
+"An architect's minimalist dark-toned creative studio desk bathed in soft natural window light, dark smoked oak wooden table, open typography monograph book, brass sculptural paperweight, ceramic coffee mug, blurred studio background with moodboard pinboard, moody editorial architectural digest photography, shot on Leica M11 50mm f/1.4 --ar 4:3 --style raw --v 6.0"
+
+3. CODEENHANCE AI MOCKUP:
+"MacBook Pro floating at a slight dynamic perspective angle displaying a futuristic dark-mode AI code editor with glowing syntax highlighting and subtle glassmorphic diff overlay, set on a dark textured granite stone pedestal, soft cinematic bronze studio light, hyper-detailed UI --ar 4:3 --v 6.0"
+
+4. LS PDF TOOLKIT MOCKUP:
+"A collection of luxury minimalist stationery and printed technical documentation manuals with blind debossed typography on ivory tactile paper, arranged on raw travertine stone, warm afternoon sunlight and gentle natural shadows, Swiss graphic design aesthetic --ar 4:3 --v 6.0"
+
+5. LS IMAGE ENGINE MOCKUP:
+"A dual-screen layout displaying high-performance media transcoding waveforms and image compression sliders on sleek bezel-less monitors, moody ambient studio lighting, clean industrial workstation --ar 4:3 --v 6.0"
+
+6. SWIFT RESUME MOCKUP:
+"A pristine, modern typographic editorial resume document displayed on warm matte paper with exquisite Swiss grid layout, accompanied by architectural drafting pens and a titanium ruler on a dark slate tabletop, overhead editorial flatlay --ar 4:3 --v 6.0"
+
+7. BHARAT LAND CONVERTER MOCKUP:
+"An abstract architectural map and golden geometric grid lines projected subtly over a dark stone tablet, representing precision land surveying and algorithmic translation, high-end editorial lighting, matte gold accents --ar 4:3 --v 6.0"
+
+8. LADE SUITE ECOSYSTEM MOCKUP:
+"A multi-device ecosystem arrangement showing an iPad Pro, iPhone, and MacBook displaying unified developer dashboards, dark obsidian UI, subtle golden status indicators, premium creative agency atmosphere --ar 4:3 --v 6.0"
+```
+
+---
+
+## 8. STEP-BY-STEP EXECUTION PROTOCOL
+
+1. **Project Scaffolding:** Initialize Next.js 14/15 App Router with TypeScript, Tailwind CSS, and strict linting.
+2. **Design Token Setup:** Install Google Fonts `Instrument Serif` and `Inter`. Implement the complete CSS variable palette in `app/globals.css`.
+3. **Motion Foundation:** Implement `lib/animations.ts` with custom easing curves and spring physics.
+4. **Data Layer Ingestion:** Create `data/projects.ts` containing the full data for the 6 flagship platforms.
+5. **Global Frame Construction:** Build `Navbar`, `MenuOverlay`, and `Footer` with dynamic Mumbai IST time and theme toggle.
+6. **Page Implementation:** Construct `/`, `/work`, `/work/[slug]`, `/about`, `/process`, and `/contact` with full content and Framer Motion triggers.
+7. **Quality Audit:** Confirm 100% removal of Framer branding, verify responsive viewport rendering across mobile and desktop, and validate dark/light theme toggle.
+
+Begin implementation immediately and generate the complete, pristine codebase.
+````

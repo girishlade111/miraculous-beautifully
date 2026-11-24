@@ -1,0 +1,109 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-serif: 'Instrument Serif', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+    /* Light Theme: Tactile Warm Alabaster */
+    --bg-primary: #FBFBF9;
+    --bg-surface: #F3F2EE;
+    --bg-card: #ECEAE4;
+    --border-subtle: rgba(18, 19, 22, 0.09);
+    --border-strong: rgba(18, 19, 22, 0.22);
+    --text-primary: #121316;
+    --text-muted: #565861;
+    --text-faint: #71737D;
+    --accent: #8A5A32;
+    --accent-hover: #6E4625;
+    --accent-foreground: #FBFBF9;
+    --accent-surface: #EAE4DA;
+  }
+
+  .dark {
+    /* Dark Theme: Matte Obsidian & Warm Bronze */
+    --bg-primary: #0C0D0E;
+    --bg-surface: #141518;
+    --bg-card: #1A1C20;
+    --border-subtle: rgba(255, 255, 255, 0.09);
+    --border-strong: rgba(255, 255, 255, 0.2);
+    --text-primary: #F4F4F6;
+    --text-muted: #A1A3AD;
+    --text-faint: #7A7D88;
+    --accent: #D4A373;
+    --accent-hover: #E8B98C;
+    --accent-foreground: #0C0D0E;
+    --accent-surface: #25272D;
+  }
+
+  html {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 240ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .dark body {
+    letter-spacing: 0.006em;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+}
+
+.font-editorial {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.font-mono-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
