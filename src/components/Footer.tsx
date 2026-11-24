@@ -31,7 +31,7 @@ export function Footer() {
             <span className="eyebrow block mb-4">Start a conversation</span>
             <a
               href="mailto:admin@ladestack.in"
-              className="font-editorial text-4xl sm:text-6xl md:text-7xl text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors duration-200 inline-block break-all sm:break-normal"
+              className="font-editorial text-3xl sm:text-6xl md:text-7xl text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors duration-200 inline-block break-words"
             >
               admin@ladestack.in
             </a>

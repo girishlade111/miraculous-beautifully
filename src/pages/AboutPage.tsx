@@ -63,7 +63,7 @@ export function AboutPage() {
           </div>
 
           <div className="lg:col-span-6">
-            <div className="aspect-[4/3] lg:aspect-auto lg:h-full min-h-[340px] rounded-2xl overflow-hidden border border-[var(--border-subtle)]">
+            <div className="w-full aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[340px] rounded-2xl overflow-hidden border border-[var(--border-subtle)]">
               <EditorialImage
                 src={STUDIO_MEDIA.studioDesk}
                 alt="Girish Lade studio workspace with architectural typography monograph and brass objects"

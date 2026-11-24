@@ -75,7 +75,7 @@ export function HomePage() {
       exit="exit"
     >
       {/* Hero Section */}
-      <section className="pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-10">
+      <section className="pt-24 md:pt-28 pb-16 md:pb-22 px-6 md:px-10">
         <div className="max-w-7xl mx-auto">
           <motion.div
             variants={staggerContainer}
@@ -83,20 +83,20 @@ export function HomePage() {
             animate="visible"
             className="max-w-4xl"
           >
-            <motion.p variants={fadeInUp} className="eyebrow mb-6">
+            <motion.p variants={fadeInUp} className="eyebrow mb-4">
               Independent AI Systems &amp; Full-Stack Architecture
             </motion.p>
 
             <motion.h1
               variants={fadeInUp}
-              className="font-editorial text-5xl sm:text-7xl lg:text-[5.5rem] leading-[1.02] text-[var(--text-primary)] mb-7"
+              className="font-editorial text-5xl sm:text-7xl lg:text-[5.25rem] leading-[1.01] text-[var(--text-primary)] mb-5"
             >
               Ideas with presence. Software with depth.
             </motion.h1>
 
             <motion.p
               variants={fadeInUp}
-              className="text-base sm:text-lg md:text-xl text-[var(--text-muted)] leading-relaxed max-w-2xl mb-10"
+              className="text-base sm:text-lg text-[var(--text-muted)] leading-relaxed max-w-2xl mb-7"
             >
               I transform ambitious concepts into high-performance AI tools and digital
               experiences with an uncompromising standard of craft and zero gatekeeping.
@@ -127,9 +127,9 @@ export function HomePage() {
             transition={{ duration: 0.9, delay: 0.2, ease: luxuryEase }}
             onMouseMove={handleSculptureMove}
             onMouseLeave={handleSculptureLeave}
-            className="mt-14 md:mt-20 rounded-2xl overflow-hidden border border-[var(--border-subtle)] bg-[#0A0B0C]"
+            className="mt-10 md:mt-12 rounded-2xl overflow-hidden border border-[var(--border-subtle)] bg-[#0A0B0C]"
           >
-            <div className="aspect-[16/9] max-h-[620px] w-full overflow-hidden">
+            <div className="aspect-[16/9] max-h-[540px] w-full overflow-hidden">
               <motion.div
                 style={{ x: smoothX, y: smoothY, scale: 1.06 }}
                 className="w-full h-full"
@@ -200,7 +200,7 @@ export function HomePage() {
       <section className="py-20 md:py-28 px-6 md:px-10 bg-[var(--bg-surface)] border-y border-[var(--border-subtle)]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-stretch">
           <div className="lg:col-span-6">
-            <div className="aspect-[4/3] lg:aspect-auto lg:h-full min-h-[320px] rounded-2xl overflow-hidden border border-[var(--border-subtle)]">
+            <div className="w-full aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[340px] rounded-2xl overflow-hidden border border-[var(--border-subtle)]">
               <EditorialImage
                 src={STUDIO_MEDIA.studioDesk}
                 alt="Minimalist dark oak architectural studio desk with Swiss typography monograph and brass paperweight"

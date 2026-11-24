@@ -16,7 +16,7 @@ export function EditorialImage({
   fallbackTitle,
   className,
   imgClassName,
-  loading = 'lazy',
+  loading = 'eager',
 }: EditorialImageProps) {
   const [hasError, setHasError] = useState(false);
 
